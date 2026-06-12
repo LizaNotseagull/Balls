@@ -1,5 +1,5 @@
 #include "DoublyLinkedList.h"
 #include "Ball.h"
 
-// Явное инстанцирование шаблона DoublyLinkedList для типа Ball
+// РЇРІРЅРѕРµ РёРЅСЃС‚Р°РЅС†РёСЂРѕРІР°РЅРёРµ С€Р°Р±Р»РѕРЅР° DoublyLinkedList РґР»СЏ С‚РёРїР° Ball
 template class DoublyLinkedList<Ball>;
