@@ -17,16 +17,16 @@ int main() {
     int mainChoice;
 
     do {
-        std::cout << "\n========== ØÀÐÈÊÈ ==========\n";
-        std::cout << "1. Íîâàÿ èãðà\n2. Ïðîäîëæèòü òåêóùóþ èãðó\n3. Èãðà ñ âñòàâêîé\n4. Âûõîä\nÂûáåðèòå ïóíêò: ";
+        std::cout << "\n========== Ð¨ÐÐ Ð˜ÐšÐ˜ ==========\n";
+        std::cout << "1. ÐÐ¾Ð²Ð°Ñ Ð¸Ð³Ñ€Ð°\n2. ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÑŒ Ñ‚ÐµÐºÑƒÑ‰ÑƒÑŽ Ð¸Ð³Ñ€Ñƒ\n3. Ð˜Ð³Ñ€Ð° Ñ Ð²ÑÑ‚Ð°Ð²ÐºÐ¾Ð¹\n4. Ð’Ñ‹Ñ…Ð¾Ð´\nÐ’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿ÑƒÐ½ÐºÑ‚: ";
         mainChoice = safeInputInt("");
 
         if (mainChoice == 1) {
-            std::cout << "\nÂûáåðèòå ðåæèì:\n1. Êëàññè÷åñêèé (áåç áîìáà-øàðîâ)\n2. Ïðîäâèíóòûé (ñ áîìáà-øàðàìè)\nÂàø âûáîð: ";
+            std::cout << "\nÐ’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ€ÐµÐ¶Ð¸Ð¼:\n1. ÐšÐ»Ð°ÑÑÐ¸Ñ‡ÐµÑÐºÐ¸Ð¹ (Ð±ÐµÐ· Ð±Ð¾Ð¼Ð±Ð°-ÑˆÐ°Ñ€Ð¾Ð²)\n2. ÐŸÑ€Ð¾Ð´Ð²Ð¸Ð½ÑƒÑ‚Ñ‹Ð¹ (Ñ Ð±Ð¾Ð¼Ð±Ð°-ÑˆÐ°Ñ€Ð°Ð¼Ð¸)\nÐ’Ð°Ñˆ Ð²Ñ‹Ð±Ð¾Ñ€: ";
             int mode = safeInputInt("");
             if (mode == 1) game.setBombsEnabled(false);
             else if (mode == 2) game.setBombsEnabled(true);
-            else { std::cout << "Íåâåðíûé ðåæèì, âîçâðàò.\n"; continue; }
+            else { std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ñ€ÐµÐ¶Ð¸Ð¼, Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚.\n"; continue; }
             dataLoaded = false;
             dataMenu(game, dataLoaded);
         }
@@ -34,9 +34,9 @@ int main() {
             try {
                 Validator::validateDataLoaded(dataLoaded);
                 game.runDestruction();
-                std::cout << "Èòîãîâîå ñîñòîÿíèå: " << game.getStateString() << std::endl;
+                std::cout << "Ð˜Ñ‚Ð¾Ð³Ð¾Ð²Ð¾Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ: " << game.getStateString() << std::endl;
                 if (game.getSize() == 0) {
-                    std::cout << "\n=^..^= Øàðèêîâ áîëüøå íåò! Íà÷íèòå íîâóþ èãðó.\n";
+                    std::cout << "\n=^..^= Ð¨Ð°Ñ€Ð¸ÐºÐ¾Ð² Ð±Ð¾Ð»ÑŒÑˆÐµ Ð½ÐµÑ‚! ÐÐ°Ñ‡Ð½Ð¸Ñ‚Ðµ Ð½Ð¾Ð²ÑƒÑŽ Ð¸Ð³Ñ€Ñƒ.\n";
                     dataLoaded = false;
                     game.clear();
                 }
@@ -49,10 +49,10 @@ int main() {
             insertionGame(game, dataLoaded);
         }
         else if (mainChoice == 4) {
-            std::cout << "Äî ñâèäàíèÿ!\n";
+            std::cout << "Ð”Ð¾ ÑÐ²Ð¸Ð´Ð°Ð½Ð¸Ñ!\n";
         }
         else {
-            std::cout << "Íåâåðíûé ïóíêò.\n";
+            std::cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð¿ÑƒÐ½ÐºÑ‚.\n";
         }
     } while (mainChoice != 4);
 
