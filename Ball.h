@@ -2,16 +2,16 @@
 #define BALL_H
 
 enum class BallType {
-    NORMAL,   // обычный шарик (цвет 0-9)
-    BOMB      // бомба (при взрыве уничтожает соседей)
+    NORMAL,   // РѕР±С‹С‡РЅС‹Р№ С€Р°СЂРёРє (С†РІРµС‚ 0-9)
+    BOMB      // Р±РѕРјР±Р° (РїСЂРё РІР·СЂС‹РІРµ СѓРЅРёС‡С‚РѕР¶Р°РµС‚ СЃРѕСЃРµРґРµР№)
 };
 
 struct Ball {
     BallType type;
-    int color;   // для NORMAL: 0-9, для BOMB: -1 (не используется)
+    int color;   // РґР»СЏ NORMAL: 0-9, РґР»СЏ BOMB: -1 (РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ)
 
     Ball(BallType t = BallType::NORMAL, int c = 0);
-    // Оператор сравнения нужен для поиска цепочек (сравниваются только обычные шарики по цвету)
+    // РћРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ РЅСѓР¶РµРЅ РґР»СЏ РїРѕРёСЃРєР° С†РµРїРѕС‡РµРє (СЃСЂР°РІРЅРёРІР°СЋС‚СЃСЏ С‚РѕР»СЊРєРѕ РѕР±С‹С‡РЅС‹Рµ С€Р°СЂРёРєРё РїРѕ С†РІРµС‚Сѓ)
     bool operator==(const Ball& other) const {
         if (type != other.type) return false;
         if (type == BallType::NORMAL) return color == other.color;
