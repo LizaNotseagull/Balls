@@ -3,9 +3,9 @@
 GameException::GameException(const std::string& msg) : message(msg) {}
 const char* GameException::what() const noexcept { return message.c_str(); }
 
-EmptyListException::EmptyListException() : GameException("Ошибка: список пуст") {}
-InvalidColorException::InvalidColorException(int c) : GameException("Недопустимое значение: " + std::to_string(c)) {}
-FileOpenException::FileOpenException(const std::string& filename) : GameException("Не удалось открыть файл: " + filename) {}
-InvalidInputException::InvalidInputException(const std::string& details) : GameException("Неверный формат данных: " + details) {}
-TooManyBallsException::TooManyBallsException(int max) : GameException("Превышено максимальное количество шариков (макс " + std::to_string(max) + ")") {}
-InvalidPositionException::InvalidPositionException() : GameException("Недопустимая позиция для вставки") {}
+EmptyListException::EmptyListException() : GameException("РћС€РёР±РєР°: СЃРїРёСЃРѕРє РїСѓСЃС‚") {}
+InvalidColorException::InvalidColorException(int c) : GameException("РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ: " + std::to_string(c)) {}
+FileOpenException::FileOpenException(const std::string& filename) : GameException("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»: " + filename) {}
+InvalidInputException::InvalidInputException(const std::string& details) : GameException("РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РґР°РЅРЅС‹С…: " + details) {}
+TooManyBallsException::TooManyBallsException(int max) : GameException("РџСЂРµРІС‹С€РµРЅРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С€Р°СЂРёРєРѕРІ (РјР°РєСЃ " + std::to_string(max) + ")") {}
+InvalidPositionException::InvalidPositionException() : GameException("РќРµРґРѕРїСѓСЃС‚РёРјР°СЏ РїРѕР·РёС†РёСЏ РґР»СЏ РІСЃС‚Р°РІРєРё") {}
