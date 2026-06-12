@@ -1,5 +1,5 @@
 #include "Node.h"
 #include "Ball.h"
 
-// Явное инстанцирование шаблона Node для типа Ball
+// РЇРІРЅРѕРµ РёРЅСЃС‚Р°РЅС†РёСЂРѕРІР°РЅРёРµ С€Р°Р±Р»РѕРЅР° Node РґР»СЏ С‚РёРїР° Ball
 template class Node<Ball>;
