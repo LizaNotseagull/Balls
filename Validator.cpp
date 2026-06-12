@@ -5,7 +5,7 @@ void Validator::validateColor(int color) {
 }
 
 void Validator::validateCount(int count, int maxCount) {
-    if (count < 0) throw InvalidInputException("Количество шариков не может быть отрицательным");
+    if (count < 0) throw InvalidInputException("РљРѕР»РёС‡РµСЃС‚РІРѕ С€Р°СЂРёРєРѕРІ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј");
     if (count > maxCount) throw TooManyBallsException(maxCount);
 }
 
@@ -14,5 +14,5 @@ void Validator::validatePosition(int position, size_t listSize) {
 }
 
 void Validator::validateDataLoaded(bool dataLoaded) {
-    if (!dataLoaded) throw InvalidInputException("Данные не загружены. Сначала создайте новую игру.");
+    if (!dataLoaded) throw InvalidInputException("Р”Р°РЅРЅС‹Рµ РЅРµ Р·Р°РіСЂСѓР¶РµРЅС‹. РЎРЅР°С‡Р°Р»Р° СЃРѕР·РґР°Р№С‚Рµ РЅРѕРІСѓСЋ РёРіСЂСѓ.");
 }
