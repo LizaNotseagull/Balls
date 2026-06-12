@@ -14,7 +14,7 @@ int safeInputInt(const std::string& prompt) {
         std::cin >> value;
         if (std::cin.fail()) {
             clearInputStream();
-            std::cout << "Îøèáêà: ââåäèòå öåëîå ÷èñëî.\n";
+            std::cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ†ÐµÐ»Ð¾Ðµ Ñ‡Ð¸ÑÐ»Ð¾.\n";
         }
         else {
             clearInputStream();
