@@ -8,15 +8,15 @@
 #include <fstream>
 
 static void inputBallsClassic(BallGame& game) {
-    int n = safeInputInt("Введите количество шариков: ");
+    int n = safeInputInt("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ С€Р°СЂРёРєРѕРІ: ");
     Validator::validateCount(n);
-    std::cout << "Введите " << n << " цветов (0-9) через пробел: ";
+    std::cout << "Р’РІРµРґРёС‚Рµ " << n << " С†РІРµС‚РѕРІ (0-9) С‡РµСЂРµР· РїСЂРѕР±РµР»: ";
     for (int i = 0; i < n; ++i) {
         int color;
         std::cin >> color;
         if (std::cin.fail()) {
             clearInputStream();
-            throw InvalidInputException("Ошибка ввода цвета");
+            throw InvalidInputException("РћС€РёР±РєР° РІРІРѕРґР° С†РІРµС‚Р°");
         }
         Validator::validateColor(color);
         game.addBall(Ball(BallType::NORMAL, color));
@@ -24,21 +24,31 @@ static void inputBallsClassic(BallGame& game) {
 }
 
 static void inputBallsWithBombs(BallGame& game) {
-    int n = safeInputInt("Введите количество шариков: ");
+    int n = safeInputInt("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ С€Р°СЂРёРєРѕРІ: ");
     Validator::validateCount(n);
-    std::cout << "Введите " << n << " элементов (0-9 - обычный, B - бомба-шар) через пробел: ";
+    std::cout << "Р’РІРµРґРёС‚Рµ " << n << " СЌР»РµРјРµРЅС‚РѕРІ (0-9 - РѕР±С‹С‡РЅС‹Р№, B - Р±РѕРјР±Р°-С€Р°СЂ) С‡РµСЂРµР· РїСЂРѕР±РµР»: ";
     for (int i = 0; i < n; ++i) {
         std::string token;
         std::cin >> token;
         if (std::cin.fail()) {
             clearInputStream();
-            throw InvalidInputException("Ошибка ввода");
+            throw InvalidInputException("РћС€РёР±РєР° РІРІРѕРґР°");
         }
         if (token == "B" || token == "b") {
             game.addBall(Ball(BallType::BOMB, -1));
         }
         else {
-            int color = std::stoi(token);
+            // РџС‹С‚Р°РµРјСЃСЏ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ РІ С‡РёСЃР»Рѕ СЃ РѕР±СЂР°Р±РѕС‚РєРѕР№ РёСЃРєР»СЋС‡РµРЅРёР№
+            int color;
+            try {
+                color = std::stoi(token);
+            }
+            catch (const std::invalid_argument&) {
+                throw InvalidInputException("РќРµРєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ: '" + token + "'. РћР¶РёРґР°Р»Р°СЃСЊ С†РёС„СЂР° РѕС‚ 0 РґРѕ 9 РёР»Рё Р±СѓРєРІР° B.");
+            }
+            catch (const std::out_of_range&) {
+                throw InvalidInputException("Р§РёСЃР»Рѕ РІРЅРµ РґРѕРїСѓСЃС‚РёРјРѕРіРѕ РґРёР°РїР°Р·РѕРЅР°: " + token);
+            }
             Validator::validateColor(color);
             game.addBall(Ball(BallType::NORMAL, color));
         }
@@ -48,23 +58,23 @@ static void inputBallsWithBombs(BallGame& game) {
 void dataMenu(BallGame& game, bool& dataLoaded) {
     int choice;
     do {
-        std::cout << "\n--- ИСТОЧНИК ДАННЫХ ---\n";
-        std::cout << "1. Ввести с клавиатуры (обычные шарики)\n";
+        std::cout << "\n--- РРЎРўРћР§РќРРљ Р”РђРќРќР«РҐ ---\n";
+        std::cout << "1. Р’РІРµСЃС‚Рё СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ (РѕР±С‹С‡РЅС‹Рµ С€Р°СЂРёРєРё)\n";
         if (game.isBombsEnabled()) {
-            std::cout << "2. Ввести с клавиатуры (с бомба-шарами)\n";
+            std::cout << "2. Р’РІРµСЃС‚Рё СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ (СЃ Р±РѕРјР±Р°-С€Р°СЂР°РјРё)\n";
         }
         else {
-            std::cout << "2. (недоступно в классическом режиме)\n";
+            std::cout << "2. (РЅРµРґРѕСЃС‚СѓРїРЅРѕ РІ РєР»Р°СЃСЃРёС‡РµСЃРєРѕРј СЂРµР¶РёРјРµ)\n";
         }
-        std::cout << "3. Загрузить из файла\n";
-        std::cout << "4. Случайная генерация\n";
-        std::cout << "5. Показать текущее состояние\n";
-        std::cout << "6. Назад в главное меню\n";
-        std::cout << "Выберите пункт: ";
+        std::cout << "3. Р—Р°РіСЂСѓР·РёС‚СЊ РёР· С„Р°Р№Р»Р°\n";
+        std::cout << "4. РЎР»СѓС‡Р°Р№РЅР°СЏ РіРµРЅРµСЂР°С†РёСЏ\n";
+        std::cout << "5. РџРѕРєР°Р·Р°С‚СЊ С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ\n";
+        std::cout << "6. РќР°Р·Р°Рґ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ\n";
+        std::cout << "Р’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚: ";
         std::cin >> choice;
         if (std::cin.fail()) {
             clearInputStream();
-            std::cout << "Ошибка ввода\n";
+            std::cout << "РћС€РёР±РєР° РІРІРѕРґР°\n";
             continue;
         }
         try {
@@ -77,7 +87,7 @@ void dataMenu(BallGame& game, bool& dataLoaded) {
                 break;
             case 2:
                 if (!game.isBombsEnabled()) {
-                    std::cout << "Классический режим: бомбы запрещены.\n";
+                    std::cout << "РљР»Р°СЃСЃРёС‡РµСЃРєРёР№ СЂРµР¶РёРј: Р±РѕРјР±С‹ Р·Р°РїСЂРµС‰РµРЅС‹.\n";
                     break;
                 }
                 game.clear();
@@ -86,48 +96,48 @@ void dataMenu(BallGame& game, bool& dataLoaded) {
                 break;
             case 3: {
                 std::string fname;
-                std::cout << "Имя файла: ";
+                std::cout << "РРјСЏ С„Р°Р№Р»Р°: ";
                 std::cin >> fname;
                 game.loadFromFile(fname);
                 loaded = true;
                 break;
             }
             case 4: {
-                int count = safeInputInt("Количество шариков: ");
-                int colors = safeInputInt("Количество различных цветов (1-10): ");
+                int count = safeInputInt("РљРѕР»РёС‡РµСЃС‚РІРѕ С€Р°СЂРёРєРѕРІ: ");
+                int colors = safeInputInt("РљРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… С†РІРµС‚РѕРІ (1-10): ");
                 if (colors < 1 || colors > 10) colors = 5;
                 game.generateRandom(count, colors);
                 loaded = true;
                 break;
             }
             case 5:
-                std::cout << "Текущее состояние: " << game.getStateString() << "\n";
+                std::cout << "РўРµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << "\n";
                 break;
             case 6:
                 return;
             default:
-                std::cout << "Неверный пункт.\n";
+                std::cout << "РќРµРІРµСЂРЅС‹Р№ РїСѓРЅРєС‚.\n";
             }
             if (loaded) {
                 dataLoaded = true;
-                // *** ПРОВЕРКА УСЛОВИЯ ЗАДАЧИ ***
+                // *** РџР РћР’Р•Р РљРђ РЈРЎР›РћР’РРЇ Р—РђР”РђР§Р ***
                 int chains = game.countInitialChains();
                 if (chains > 1) {
-                    std::cout << "\nОшибка: в начальных данных обнаружено " << chains
-                        << " цепочек из 3+ одинаковых шариков.\n"
-                        << "По условию задачи допускается не более одной. Данные не будут обработаны.\n";
+                    std::cout << "\nРћС€РёР±РєР°: РІ РЅР°С‡Р°Р»СЊРЅС‹С… РґР°РЅРЅС‹С… РѕР±РЅР°СЂСѓР¶РµРЅРѕ " << chains
+                        << " С†РµРїРѕС‡РµРє РёР· 3+ РѕРґРёРЅР°РєРѕРІС‹С… С€Р°СЂРёРєРѕРІ.\n"
+                        << "РџРѕ СѓСЃР»РѕРІРёСЋ Р·Р°РґР°С‡Рё РґРѕРїСѓСЃРєР°РµС‚СЃСЏ РЅРµ Р±РѕР»РµРµ РѕРґРЅРѕР№. Р”Р°РЅРЅС‹Рµ РЅРµ Р±СѓРґСѓС‚ РѕР±СЂР°Р±РѕС‚Р°РЅС‹.\n";
                     dataLoaded = false;
                     game.clear();
                     return;
                 }
-                std::cout << "\nИсходное состояние: " << game.getStateString() << std::endl;
-                std::cout << "Начинаем удаление цепочек...\n";
-                game.runDestruction();   // вывод итога внутри
+                std::cout << "\nРСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << std::endl;
+                std::cout << "РќР°С‡РёРЅР°РµРј СѓРґР°Р»РµРЅРёРµ С†РµРїРѕС‡РµРє...\n";
+                game.runDestruction();   // РІС‹РІРѕРґ РёС‚РѕРіР° РІРЅСѓС‚СЂРё
                 return;
             }
         }
         catch (const GameException& e) {
-            std::cerr << "Ошибка: " << e.what() << std::endl;
+            std::cerr << "РћС€РёР±РєР°: " << e.what() << std::endl;
             dataLoaded = false;
             game.clear();
             clearInputStream();
@@ -143,57 +153,57 @@ void insertionGame(BallGame& game, bool& dataLoaded) {
         std::cout << e.what() << std::endl;
         return;
     }
-    std::cout << "\n=== ИГРА С ВСТАВКОЙ ===\n";
-    std::cout << "Текущее состояние: " << game.getStateString() << "\n";
+    std::cout << "\n=== РР“Р Рђ РЎ Р’РЎРўРђР’РљРћР™ ===\n";
+    std::cout << "РўРµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << "\n";
     while (true) {
         if (game.getSize() == 0) {
-            std::cout << "\n=^..^= Шариков больше нет! Начните новую игру.\n";
+            std::cout << "\n=^..^= РЁР°СЂРёРєРѕРІ Р±РѕР»СЊС€Рµ РЅРµС‚! РќР°С‡РЅРёС‚Рµ РЅРѕРІСѓСЋ РёРіСЂСѓ.\n";
             dataLoaded = false;
             game.clear();
             return;
         }
-        std::cout << "\n1. Вставить шарик\n2. Запустить удаление цепочек\n3. Показать состояние\n4. Вернуться в главное меню\nВыбор: ";
+        std::cout << "\n1. Р’СЃС‚Р°РІРёС‚СЊ С€Р°СЂРёРє\n2. Р—Р°РїСѓСЃС‚РёС‚СЊ СѓРґР°Р»РµРЅРёРµ С†РµРїРѕС‡РµРє\n3. РџРѕРєР°Р·Р°С‚СЊ СЃРѕСЃС‚РѕСЏРЅРёРµ\n4. Р’РµСЂРЅСѓС‚СЊСЃСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ\nР’С‹Р±РѕСЂ: ";
         int ch = safeInputInt("");
         if (ch == 4) break;
         try {
             if (ch == 1) {
-                std::cout << "Введите тип (0-обычный, 1-бомба-шар): ";
+                std::cout << "Р’РІРµРґРёС‚Рµ С‚РёРї (0-РѕР±С‹С‡РЅС‹Р№, 1-Р±РѕРјР±Р°-С€Р°СЂ): ";
                 int t;
                 std::cin >> t;
                 if (t == 1 && !game.isBombsEnabled()) {
-                    std::cout << "Классический режим: бомба-шары запрещены.\n";
+                    std::cout << "РљР»Р°СЃСЃРёС‡РµСЃРєРёР№ СЂРµР¶РёРј: Р±РѕРјР±Р°-С€Р°СЂС‹ Р·Р°РїСЂРµС‰РµРЅС‹.\n";
                     continue;
                 }
                 BallType type = (t == 1) ? BallType::BOMB : BallType::NORMAL;
                 int color = 0;
                 if (type == BallType::NORMAL) {
-                    color = safeInputInt("Цвет (0-9): ");
+                    color = safeInputInt("Р¦РІРµС‚ (0-9): ");
                     Validator::validateColor(color);
                 }
                 else {
                     color = -1;
                 }
-                int pos = safeInputInt("Позиция (0-" + std::to_string(game.getSize()) + "): ");
+                int pos = safeInputInt("РџРѕР·РёС†РёСЏ (0-" + std::to_string(game.getSize()) + "): ");
                 Validator::validatePosition(pos, game.getSize());
                 game.insertBallAt(pos, Ball(type, color));
-                std::cout << "Вставлено. Новое состояние: " << game.getStateString() << "\n";
+                std::cout << "Р’СЃС‚Р°РІР»РµРЅРѕ. РќРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << "\n";
             }
             else if (ch == 2) {
                 game.runDestruction();
-                std::cout << "Состояние: " << game.getStateString() << "\n";
+                std::cout << "РЎРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << "\n";
                 if (game.getSize() == 0) {
-                    std::cout << "\n=^..^= Шариков больше нет! Начните новую игру.\n";
+                    std::cout << "\n=^..^= РЁР°СЂРёРєРѕРІ Р±РѕР»СЊС€Рµ РЅРµС‚! РќР°С‡РЅРёС‚Рµ РЅРѕРІСѓСЋ РёРіСЂСѓ.\n";
                     dataLoaded = false;
                     game.clear();
                     return;
                 }
             }
             else if (ch == 3) {
-                std::cout << "Состояние: " << game.getStateString() << "\n";
+                std::cout << "РЎРѕСЃС‚РѕСЏРЅРёРµ: " << game.getStateString() << "\n";
             }
         }
         catch (const GameException& e) {
-            std::cerr << "Ошибка: " << e.what() << std::endl;
+            std::cerr << "РћС€РёР±РєР°: " << e.what() << std::endl;
         }
     }
 }
